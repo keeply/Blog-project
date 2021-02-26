@@ -1,0 +1,36 @@
+
+<%- include("partials/header"); -%>
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col col-sm-9">
+     <h1>Главная</h1>
+     <p> <%= startingContent %> </p>
+    </div>
+<!-- Отдельный блок с текущей погодой по геолокации -->
+     <div class="col col-sm-3 shadowbox" onmouseover="mOver(this)" onmouseout="mOut(this)">
+        <h3>Текущая погода</h3>
+          <img src="" id="wImage">
+          <p id="wTemp"></p>
+          <p id="wDescription"></p>
+       </div>
+
+  </div>
+</div>
+<!-- Вывожу все посты на Главную с помощью forEach-->
+<div class="container-fluid col col-sm-9">
+  <%  posts.forEach(function(post){ %>
+
+    <h1><%=post.title%></h1>
+    <p>
+    <%=post.content.substring(0, 100) + " ..."%>
+    <a class="post-link" href="/posts/<%=post._id%>">Читать далее</a>
+    </p>
+
+
+    <% }) %>
+</div>
+
+
+
+<%- include("partials/footer"); -%>

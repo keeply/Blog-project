@@ -1,0 +1,14 @@
+
+<%- include("partials/header"); -%>
+    <h1>Новый пост</h1>
+    <form class="" action="/compose" method="post">
+      <div class="form-group">
+        <label>Заголовок</label>
+        <input class="form-control" type="text" name="inputTitle">
+        <label>Напишите что-нибудь</label>
+        <textarea class="form-control" name="inputContent" rows="5" cols="30"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" name="button">Опубликовать</button>
+    </form>
+
+<%- include("partials/footer"); -%>
