@@ -6,47 +6,55 @@
   </div>
 </div>
 
-
+<!-- Скрипт для определения текущей погоды по геолокации -->
 <script type="text/javascript">
-// Скрипт для определения текущей погоды по геолокации//
-var options = {
-enableHighAccuracy: true,
-timeout: 5000,
-maximumAge: 0
-};
-// Определяю координаты местоположения пользователя//
-function success(pos) {
-var crd = pos.coords;
-var lati = Math.trunc(crd.latitude);
-var long = Math.trunc(crd.longitude);
-// С помощью jQuery получаю погодные данные openweathermap API в формате JSON: температуру воздуха, краткое описание погоды и иконку с изображением текущей погоды
-$.getJSON( "http://api.openweathermap.org/data/2.5/weather?lat=" + lati + "&lon=" + long + "&lang=ru&appid=dcd16b5557178b637888cece5903db93&units=metric",
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
+  
+  //callback-функция для getCurrentPosition() в случае успешного выполнения
+  function success(pos) {
+    //определяю координаты местоположения пользователя
+    var crd = pos.coords;
+    var lati = Math.trunc(crd.latitude);
+    var long = Math.trunc(crd.longitude);
+    //получаю погодные данные Openweathermap API в формате JSON: 
+    //температуру воздуха, краткое описание погоды и иконку погоды 
+    $.getJSON( "http://api.openweathermap.org/data/2.5/weather?lat=" + lati + "&lon=" + long + "&lang=ru&appid=dcd16b5557178b637888cece5903db93&units=metric",
       function( data ) {
-        //Вывожу погодные данные по id в отдельный блок
+          //Вывожу погодные данные в отдельный блок
           $("#wTemp").html("Температура воздуха " + Math.round(data.main.temp) + "℃");
           $("#wDescription").html(data.weather[0].description);
           const url = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
           $("#wImage").attr("src", url);
         });
-};
+    };
+  
+  //callback-функция для getCurrentPosition() в случае ошибки
+  function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  };
 
-function error(err) {
-console.warn(`ERROR(${err.code}): ${err.message}`);
-};
+  //использую метод Geolocation.getCurrentPosition(), 
+  //чтобы получить текущее положение устройства
+  //доступ к объекту браузера Geolocation проводится с помощью 
+  //свойства Navigator.geolocation
+  navigator.geolocation.getCurrentPosition(success, error, options);
 
-navigator.geolocation.getCurrentPosition(success, error, options);
 </script>
 
-
+<!-- Скрипт меняет цвет блока с погодой при наведении на него курсора -->
 <script type="text/javascript">
-//Меняю цвет блока с погодой при наведении на него курсора//
-  function mOver(obj) {
-  obj.style.background = "linear-gradient(180deg, #70adb5, #ddd 40%, #ccc)"
-}
 
-function mOut(obj) {
-  obj.style.background = "linear-gradient(180deg, #fff, #ddd 40%, #ccc)"
-}
+  function mOver(obj) {
+    obj.style.background = "linear-gradient(180deg, #70adb5, #ddd 40%, #ccc)"
+  }
+
+  function mOut(obj) {
+    obj.style.background = "linear-gradient(180deg, #fff, #ddd 40%, #ccc)"
+  }
 </script>
 
 </body>
